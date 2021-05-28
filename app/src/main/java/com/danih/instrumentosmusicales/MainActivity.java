@@ -1,6 +1,7 @@
 package com.danih.instrumentosmusicales;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,13 +30,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         listaInstrumento = new ArrayList<Instrumento>();
         resetInstrumento();
 
         recycler = findViewById(R.id.recyclerInstrumento);
         adapter = new InstrumentosAdapter(listaInstrumento, this);
         recycler.setAdapter(adapter);
-        recycler.setLayoutManager(new LinearLayoutManager(this));
+       // recycler.setLayoutManager(new LinearLayoutManager(this));
+
+        int gridColumnCount = getResources().getInteger(R.integer.grid_column_count);
+        recycler.setLayoutManager(new GridLayoutManager(this, gridColumnCount));
+        int swipeDirs;
+        if(gridColumnCount > 1){
+            swipeDirs = 0;
+        } else {
+            swipeDirs = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+        }
+
 
         botonReset = findViewById(R.id.resetInstrumentos);
         botonReset.setOnClickListener(new View.OnClickListener() {
@@ -46,8 +59,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT |
-                ItemTouchHelper.DOWN | ItemTouchHelper.UP, ItemTouchHelper.LEFT |
-                ItemTouchHelper.RIGHT) {
+                ItemTouchHelper.DOWN | ItemTouchHelper.UP, swipeDirs) {
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -87,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         listaInstrumento.add(new Instrumento("Trompeta", "Descripcion trompeta", R.drawable.imagen_trompeta_edited));
         if (adapter != null) {
             adapter.notifyDataSetChanged();
-            Toast.makeText(this,"Actualizando datos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Restableciendo datos", Toast.LENGTH_SHORT).show();
         }
     }
 
