@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         listaInstrumento.add(new Instrumento("Trompeta", "Descripcion trompeta", R.drawable.imagen_trompeta_edited));
         if (adapter != null) {
             adapter.notifyDataSetChanged();
+            Toast.makeText(this,"Actualizando datos", Toast.LENGTH_SHORT).show();
         }
     }
 
